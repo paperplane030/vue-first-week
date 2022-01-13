@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+      integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.2/vue.global.js"></script>
+    <title>Document</title>
+    <style>
+      .product:hover {
+        cursor: pointer;
+      }
+
+      .primary-image {
+        width: 50%;
+      }
+
+      .images {
+        height: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container d-flex mt-3">
+        <div class="col-6">
+          <div class="h4">產品列表</div>
+          <div class="d-flex justify-content-around flex-wrap">
+            <div
+              class="product col-4 p-4 mb-3 flex-column align-items-center justify-content-center"
+              v-for="item in product"
+              @click="select = item"
+            >
+              <img :src="item.img" class="card-img-top" />
+              <p class="text-center mt-2">{{item.name}}</p>
+              <template v-if="item.sale">
+                <div class="text-left mt-1 ps-2">
+                  建議售價: <del>{{item.price}}</del>
+                </div>
+                <div class="text-left mt-1 ps-2">網路售價: {{item.sale}}</div>
+              </template>
+              <template v-else>
+                <div class="text-left mt-1 ps-2">建議售價: {{item.price}}</div>
+              </template>
+            </div>
+          </div>
+          <p>目前共有 {{ product.length }} 項產品</p>
+        </div>
+        <div class="col-6">
+          <div class="h4">產品詳細資訊</div>
+          <div v-if="!select" class="text-secondary">請選擇一個商品查看</div>
+          <div v-else>
+            <div class="card align-items-center mb-2">
+              <img
+                :src="select.img"
+                class="card-img-top primary-image"
+                alt="..."
+              />
+              <div class="card-body">
+                <h5 class="card-title">
+                  {{select.name}}
+                  <span class="badge bg-primary">{{ select.badge }}</span>
+                </h5>
+                <p class="card-text">{{ select.intro }}</p>
+                <p class="card-text" v-if="select.sale">
+                  建議售價: <del>{{ select.price }}</del>
+                  {{ select.sale }} 元
+                </p>
+                <p class="card-text" v-else>建議售價: {{ select.price }} 元</p>
+              </div>
+            </div>
+            <img
+              v-for="img in select.images"
+              :src="img"
+              class="images me-1"
+              alt="..."
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    Vue.createApp({
+      data() {
+        return {
+          product: [
+            {
+              id: 1,
+              name: '寶可夢 晶燦鑽石',
+              badge: '全新',
+              img: 'https://b.ecimg.tw/items/DGCW131900BZBL1/000001_1639448038.jpg',
+              intro: `經典場景忠實重現體驗原作故事，遊戲新加入當今《寶可夢》易懂且易上手的要素，戰鬥場面充滿臨場感的寶可夢對戰，和寶可夢夥伴踏上旅程主角將遇見傳說的寶可夢「帝牙盧卡」`,
+              price: 1790,
+              sale: 1590,
+              images: [
+                'https://e.ecimg.tw/items/DGCW131900BZBL1/i010007_1636956710.jpg',
+                'https://c.ecimg.tw/items/DGCW131900BZBL1/i010008_1636956710.jpg',
+              ],
+            },
+            {
+              id: 2,
+              name: 'Just Dance 舞力全開',
+              badge: '全新',
+              img: 'https://d.ecimg.tw/items/DGBJBH1900C7PVH/000001_1641952986.jpg',
+              intro: `史上最暢銷音樂遊戲最新作，與多才多藝的Todrick Hal打造專屬〈Nails, Hair, Hips, Heels〉和MV，全新快速遊玩模式讓你隨時跳！揮灑汗水模式」和自訂播放清單打造專屬活動，
+                      「合作模式」集結好友，秀出你的舞步`,
+              price: 1450,
+              sale: 1150,
+              images: [
+                'https://p2.bahamut.com.tw/B/2KU/63/30e3c90adc9df5032fdfed5f231dnmj5.JPG',
+                'https://p2.bahamut.com.tw/B/2KU/62/dd2dcc4c6162c30565c810da7b1dnmi5.JPG',
+              ],
+            },
+            {
+              id: 3,
+              name: '集合啦！動物森友會',
+              badge: '二手',
+              img: 'https://d.ecimg.tw/items/DGBJCWA900AGHAN/000001_1635908641.jpg',
+              intro: `無人島上打造小窩～體驗樂活趣味，自由DIY體驗！與動物朋友們溫馨交流，任意探索島上環境、體驗四季變化，呼朋引伴！支援8人集合森友會，佈置自我風格的溫暖小窩，收集材料解鎖製作特別道具`,
+              price: 1590,
+              images: [
+                'https://im.marieclaire.com.tw/s1200c675h100b0/assets/mc/202110/6169C88BDEEE11634322571.jpeg',
+                'https://p2.bahamut.com.tw/B/2KU/48/8d624e48035cb89c69173f90ce156245.JPG',
+              ],
+            },
+          ],
+          select: null,
+        }
+      },
+    }).mount('#app')
+  </script>
+</html>
